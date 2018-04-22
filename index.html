@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">  
+<html>  
+	 <head>  
+	  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">  
+	  <title> upload image to db</title>
+		<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+	<meta name="apple-touch-fullscreen" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<script type="text/javascript" src="js/lib/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="js/LodopFuncs.js"></script>
+	
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/common.min.css" rel="stylesheet">
+	<script type="text/javascript">
+	if(navigator.appName == 'Microsoft Internet Explorer'){
+		if(navigator.userAgent.indexOf("MSIE 5.0")>0 || navigator.userAgent.indexOf("MSIE 6.0")>0 || navigator.userAgent.indexOf("MSIE 7.0")>0) {
+			alert('您使用的 IE 浏览器版本过低, 推荐使用 Chrome 浏览器或 IE8 及以上版本浏览器.');
+		}
+	}
+	
+	</script>
+	  <script> 
+		  window.onload = function(){ 
+			var input = document.getElementById("demo_input"); 
+			var result= document.getElementById("result"); 
+			var img_area = document.getElementById("img_area"); 
+			if ( typeof(FileReader) === 'undefined' ){
+			  result.innerHTML = "抱歉，你的浏览器不支持 FileReader，请使用现代浏览器操作！"; 
+			  input.setAttribute('disabled','disabled'); 
+			}else{
+			  input.addEventListener('change',readFile,false);
+			} 
+		  }
+		  function readFile(){
+			var file = this.files[0]; 
+			//这里我们判断下类型如果不是图片就返回 去掉就可以上传任意文件  
+			if(!/image\/\w+/.test(file.type)){
+			  alert("请确保文件为图像类型"); 
+			  return false; 
+			}
+			var reader = new FileReader(); 
+			reader.readAsDataURL(file); 
+			console.log();
+			reader.onload = function(e){ 
+				result.innerHTML = this.result; 
+				//img_area.innerHTML = '<div class="sitetip">图片img标签展示：</div>![]('+this.result+')'; 
+			}
+		  } 
+		</script> 
+		</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="main">
+			<div class="panel panel-default">
+				<div class="panel-heading">广告信息</div> 
+				  <form action="uploadimage.php" method="post" enctype="multipart/form-data" class="form-horizontal form">
+					<div class="panel-body">
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<label class="control-label">标题：</label>
+								<input type="text" name="name">
+							</div>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<label class="control-label">奖品（第一名）：</label>
+								<input type="text" name="award">
+							</div>
+							<div class="col-sm-4 col-md-4 col-lg-4">
+								<label class="control-label">领奖地点：</label>
+								<input type="text" name="address">
+							</div>
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<input type="file" class="control-label" value="sdgsdg" id="demo_input" /> 
+						</div>
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<textarea name="img" id="result" rows=15 cols=60 placeholder="图片转为base64格式"></textarea> 
+						</div>
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<p id="img_area"></p>
+						</div>
+						<div class="col-sm-12 col-md-12 col-lg-12">
+							<input type="hidden" name="action" value="add">
+							<input type="submit" name="b1" value="提交">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	  
+	 </body>  
+</html>  
